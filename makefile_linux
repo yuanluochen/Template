@@ -1,0 +1,20 @@
+TARGET = a       #工程名
+OBJ = $(patsubst %.cpp,%.o, $(wildcard ./*.cpp)) #替换当前目录下所有.c文件的文件名
+
+CC = g++            #编译器
+RM = rm -f           #删除命令 windows平台为del linux平台为 rm -rf 强制删除所有指定文件
+DEL = $(TARGET) *.o       #要删除的文件
+#Linux 平台为 DEL = $(OBJ) $(wildcard ./*.exe)
+#DEL = $(OBJ) $(wildcard ./*.exe)
+
+make: clean $(TARGET)  #清除历史编译生成的文件，生成新文件
+#编译文件
+$(TARGET):$(OBJ)
+		$(CC) $^ -o $@
+
+%.o:%.cpp                        #编译为目标文件 
+		$(CC) -c -g $<         
+
+.PHONY:clean           #清除指定文件
+clean:
+		$(RM) $(DEL)
